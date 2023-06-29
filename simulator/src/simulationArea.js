@@ -46,6 +46,7 @@ const simulationArea = {
     clockState: 0,
     clockEnabled: true,
     lastSelected: undefined,
+    addedAsTagOperator: undefined,
     stack: [],
     prevScale: 0,
     oldx: 0,

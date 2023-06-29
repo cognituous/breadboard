@@ -86,10 +86,14 @@ function setupEnvironment() {
     window.projectId = projectId;
     updateSimulationSet(true);
     const DPR = window.devicePixelRatio || 1;
-    newCircuit('Main');
+    newCircuit('cpl-sheet1');
+    // newCircuit('Main');
     window.data = {};
     resetup();
     setupCodeMirrorEnvironment();
+    // $('#TouchCe-panel').empty();
+    // $('#moduleProperty').empty();
+    $('#time-Diagram').empty();
 }
 
 /**

@@ -85,7 +85,7 @@ class verilogUnaryGate{
         if (deviceJSON["bits"]) {
             this.bitWidth = getBitWidth(deviceJSON["bits"]);
         }
-    };
+    }
 
     getPort(portName){
         if(portName == "in"){
@@ -415,7 +415,7 @@ class verilogBinaryGate{
         if (deviceJSON["bits"]) {
             this.bitWidth = getBitWidth(deviceJSON["bits"]);
         }
-    };
+    }
 
     getPort(portName) {
         if(portName == "in1") {

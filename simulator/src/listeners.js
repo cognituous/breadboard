@@ -7,24 +7,36 @@
 /* eslint-disable prefer-template */
 /* eslint-disable no-param-reassign */
 // Most Listeners are stored here
+// eslint-disable-next-line import/no-cycle
 import {
     layoutModeGet, tempBuffer, layoutUpdate, setupLayoutModePanelListeners,
 } from './layoutMode';
 import simulationArea from './simulationArea';
+// eslint-disable-next-line import/no-cycle
 import {
     scheduleUpdate, update, updateSelectionsAndPane,
     wireToBeCheckedSet, updatePositionSet, updateSimulationSet,
     updateCanvasSet, gridUpdateSet, errorDetectedSet,
 } from './engine';
 import { changeScale, findDimensions } from './canvasApi';
+// eslint-disable-next-line import/no-cycle
 import { scheduleBackup } from './data/backupCircuit';
-import { hideProperties, deleteSelected, uxvar, fullView, createElement, exitFullView, escapeHtml } from './ux';
+import {
+    hideProperties,
+    deleteSelected,
+    uxvar,
+    fullView,
+    createElement,
+    exitFullView,
+    escapeHtml,
+    grabElement, applyCreatedElement,
+} from './ux';
 import {
     updateRestrictedElementsList, updateRestrictedElementsInScope, hideRestricted, showRestricted,
 } from './restrictedElementDiv';
 import { removeMiniMap, updatelastMinimapShown } from './minimap';
 import undo from './data/undo';
-import redo from "./data/redo";
+import redo from './data/redo';
 import { copy, paste, selectAll } from './events';
 // Import save from './data/save';
 import { verilogModeGet } from './Verilog2CV';
@@ -117,6 +129,7 @@ function getTap(e) {
     } else {
     // Single tap
     }
+    // eslint-disable-next-line no-use-before-define
     openCurrMenu(-1);
     lastTap = currentTime;
     e.preventDefault();
@@ -165,8 +178,7 @@ export function pinchZoom(e, globalScope) {
     }
     if (pinchZ >= 2) {
         pinchZ = 2;
-    }
-    else if (pinchZ <= 0.5) {
+    } else if (pinchZ <= 0.5) {
         pinchZ = 0.5;
     }
     const oldScale = globalScope.scale;
@@ -319,7 +331,7 @@ function panStop(e) {
 
     if (simulationArea.touch) {
     // small hack so Current circuit element should not spwan above last circuit element
-        if(!isCopy) {
+        if (!isCopy) {
             findDimensions(globalScope);
             simulationArea.mouseX = 100 + simulationArea.maxWidth || 0;
             simulationArea.mouseY = simulationArea.minHeight || 0;
@@ -343,18 +355,18 @@ export default function startListeners() {
     $('#undoButton').on('click', () => {
         undo();
     });
-    $('#redoButton').on('click',() => {
+    $('#redoButton').on('click', () => {
         redo();
-    })
-    $('#viewButton').on('click',() => {
+    });
+    $('#viewButton').on('click', () => {
         fullView();
     });
 
     $(document).on('keyup', (e) => {
-        if (e.key === "Escape") exitFullView();
+        if (e.key === 'Escape') exitFullView();
     });
 
-    $('#projectName').on('click',() => {
+    $('#projectName').on('click', () => {
         simulationArea.lastSelected = globalScope.root;
         setTimeout(() => {
             document.getElementById('projname').select();
@@ -581,6 +593,7 @@ export default function startListeners() {
 
             if (simulationArea.controlDown && (e.key == 'T' || e.key == 't')) {
                 // E.preventDefault(); //browsers normally open a new tab
+                // eslint-disable-next-line import/no-named-as-default-member
                 simulationArea.changeClockTime(prompt('Enter Time:'));
             }
         }
@@ -776,29 +789,32 @@ export default function startListeners() {
         }
 
         let htmlIcons = '';
-        const result = elementPanelList.filter(ele => ele.toLowerCase().includes(value));
+        const result = elementPanelList.filter((ele) => ele.toLowerCase().includes(value));
         var finalResult = [];
-        for(const j in result) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const j in result) {
             if (Object.prototype.hasOwnProperty.call(result, j)) {
+                // eslint-disable-next-line no-restricted-syntax
                 for (const category in elementHierarchy) {
-                     if(Object.prototype.hasOwnProperty.call(elementHierarchy, category)) {
+                    if (Object.prototype.hasOwnProperty.call(elementHierarchy, category)) {
                         const categoryData = elementHierarchy[category];
-                         for (let i = 0; i < categoryData.length; i++) {
-                             if(result[j] == categoryData[i].label) {
-                                 finalResult.push(categoryData[i]);
+                        for (let i = 0; i < categoryData.length; i++) {
+                            if (result[j] == categoryData[i].label) {
+                                finalResult.push(categoryData[i]);
                             }
                         }
                     }
                 }
             }
         }
-    if(!finalResult.length) searchResults.text('No elements found ...');
-    else {
-        finalResult.forEach( e => htmlIcons += createIcon(e));
-        searchResults
-          .html(htmlIcons);
-        $('.filterElements').mousedown(createElement);
-    }
+        if (!finalResult.length) searchResults.text('No elements found ...');
+        else {
+            // eslint-disable-next-line no-use-before-define,no-return-assign
+            finalResult.forEach((e) => htmlIcons += createIcon(e));
+            searchResults
+                .html(htmlIcons);
+        // $('.filterElements').mousedown(applyCreatedElement);
+        }
     });
 
     function createIcon(element) {
@@ -830,7 +846,6 @@ export default function startListeners() {
     const layoutQuerySelector = document.querySelector('#layoutDialog');
     const layoutElementPanelListner = document.getElementsByClassName('layoutElementPanel')[0];
     // const colorThemesDialogListner = document.getElementById('colorThemesDialog');
-
 
     moduleQueryslector.addEventListener('touchstart', (e) => {
         dragStart(e, modulePropertyListners);
@@ -994,10 +1009,9 @@ function zoomSliderListeners() {
     smallnavbar = document.getElementById('smallNavbarMenu-btn');
 
     function ChangeIconColor(Id, color) {
-        if(Id.style.backgroundColor === color) {
+        if (Id.style.backgroundColor === color) {
             Id.style.backgroundColor = '';
-        }
-        else {
+        } else {
             Id.style.backgroundColor = color;
         }
     }
@@ -1008,6 +1022,7 @@ function zoomSliderListeners() {
     });
     smallnavbar.addEventListener('touchend', (e) => {
         ChangeIconColor(smallnavbar, '');
+        // eslint-disable-next-line no-use-before-define
         openCloseSmallNavbar();
         e.preventDefault();
     });
@@ -1018,6 +1033,7 @@ function zoomSliderListeners() {
     });
     smallnavbar.addEventListener('mouseup', (e) => {
         ChangeIconColor(smallnavbar, '');
+        // eslint-disable-next-line no-use-before-define
         openCloseSmallNavbar();
         e.preventDefault();
     });
@@ -1025,10 +1041,9 @@ function zoomSliderListeners() {
     function openCloseSmallNavbar() {
         navMenuButtonHeight = document.getElementsByClassName('smallscreen-navbar')[0].offsetHeight;
         navMenuButton = document.getElementsByClassName('smallscreen-navbar');
-        if(navMenuButtonHeight === 0) {
+        if (navMenuButtonHeight === 0) {
             navMenuButton[0].style.height = '100%';
-        }
-        else {
+        } else {
             navMenuButton[0].style.height = '0';
         }
         var projectname = document.getElementById('ProjectID');
@@ -1036,72 +1051,81 @@ function zoomSliderListeners() {
         projectname.innerHTML = `<p>${Uniqueprojectname}<p>`;
     }
 
-
     /** Improved Collapsible navbar */
     var smallScreemInner = document.getElementsByClassName('smallscreen-navbar-inner');
     var smallNavbarUl = document.getElementsByClassName('smallNavbar-navbar-ul');
     var ulicon = document.getElementsByClassName('ulicon');
     function NavCollapsible(index) {
-        for(var i = 0; i < smallNavbarUl.length - 1; i++) {
-            if(i !== index) {
+        for (var i = 0; i < smallNavbarUl.length - 1; i++) {
+            if (i !== index) {
                 ulicon[i].classList.remove('active');
                 smallScreemInner[i].style.height = '0%';
             }
         }
-        if(smallScreemInner[index].style.height === '100%') {
+        if (smallScreemInner[index].style.height === '100%') {
             smallScreemInner[index].style.height = '0%';
             ulicon[index].classList.remove('active');
-        }
-        else {
+        } else {
             smallScreemInner[index].style.height = '100%';
             ulicon[index].classList.toggle('active');
         }
     }
 
-    for(var i = 0; i < smallNavbarUl.length; i++) {
-        (function(index) {
+    for (var i = 0; i < smallNavbarUl.length; i++) {
+        (function (index) {
             smallNavbarUl[index].addEventListener('click', () => {
                 NavCollapsible(index);
             });
         }(i));
     }
     var SmallScreenLi = document.getElementsByClassName('SmallScreen-Navbar-li');
-    for(var j = 0; j < SmallScreenLi.length; j++) {
-        (function(index) {
+    for (var j = 0; j < SmallScreenLi.length; j++) {
+        (function (index) {
             SmallScreenLi[index].addEventListener('click', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(SmallScreenLi, index, '#A0937D');
+                // eslint-disable-next-line no-use-before-define
                 onTapSmallNavbar(index);
                 setTimeout(() => {
-                    onTapColor(SmallScreenLi, index, ''); }, 100);
+                    // eslint-disable-next-line no-use-before-define
+                    onTapColor(SmallScreenLi, index, '');
+                }, 100);
                 e.preventDefault();
             });
         }(j));
     }
 
-
     // Function for Touchmenu
 
     var TouchMenuButton = document.getElementsByClassName('touchMenuIcon');
     var panelclose = document.getElementsByClassName('panelclose');
-    for(var touchi = 0; touchi < TouchMenuButton.length; touchi++) {
-        (function(index) {
+    for (var touchi = 0; touchi < TouchMenuButton.length; touchi++) {
+        (function (index) {
             TouchMenuButton[index].addEventListener('touchstart', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(TouchMenuButton, index, buttoncolor);
+                // eslint-disable-next-line no-use-before-define
                 openCurrMenu(index);
                 e.preventDefault();
             });
             TouchMenuButton[index].addEventListener('mousedown', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(TouchMenuButton, index, buttoncolor);
+                // eslint-disable-next-line no-use-before-define
                 openCurrMenu(index);
                 e.preventDefault();
             });
             panelclose[index].addEventListener('touchstart', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(TouchMenuButton, index, buttoncolor);
+                // eslint-disable-next-line no-use-before-define
                 openCurrMenu(index);
                 e.preventDefault();
             });
             panelclose[index].addEventListener('mousedown', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(TouchMenuButton, index, buttoncolor);
+                // eslint-disable-next-line no-use-before-define
                 openCurrMenu(index);
                 e.preventDefault();
             });
@@ -1111,23 +1135,27 @@ function zoomSliderListeners() {
     /** Function for QuicKMenu */
     var quickMenu = document.getElementsByClassName('quicMenu-align');
     // here lenght-2 is done because last two button are used for diff purpose
-    for(var quickmenui = 0; quickmenui < quickMenu.length - 2; quickmenui++) {
-        (function(index) {
+    for (var quickmenui = 0; quickmenui < quickMenu.length - 2; quickmenui++) {
+        (function (index) {
             quickMenu[index].addEventListener('click', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(quickMenu, index, buttoncolor);
+                // eslint-disable-next-line no-use-before-define
                 onQuickmenuTap(index);
                 setTimeout(() => {
-                    onTapColor(quickMenu, index, ''); }, 100);
+                    // eslint-disable-next-line no-use-before-define
+                    onTapColor(quickMenu, index, '');
+                }, 100);
                 e.preventDefault();
             });
         }(quickmenui));
     }
     quickMenu[6].addEventListener('click', (e) => {
+        // eslint-disable-next-line no-use-before-define
         onTapColor(quickMenu, 6, buttoncolor);
-        if(simulationArea.shiftDown == false) {
+        if (simulationArea.shiftDown == false) {
             simulationArea.shiftDown = true;
-        }
-        else {
+        } else {
             simulationArea.shiftDown = false;
             e.preventDefault();
         }
@@ -1137,23 +1165,29 @@ function zoomSliderListeners() {
     //  Undo,Delete,Fit to screen
     //
     var liveMenu = document.getElementsByClassName('liveMenuIcon');
-    for(var liveMenui = 0; liveMenui < liveMenu.length; liveMenui++) {
-        (function(index) {
+    for (var liveMenui = 0; liveMenui < liveMenu.length; liveMenui++) {
+        (function (index) {
             liveMenu[index].addEventListener('touchstart', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(liveMenu, index, buttoncolor);
                 e.preventDefault();
             });
             liveMenu[index].addEventListener('touchend', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(liveMenu, index, '');
+                // eslint-disable-next-line no-use-before-define
                 onTapliveMenu(index);
                 e.preventDefault();
             });
             liveMenu[index].addEventListener('mousedown', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(liveMenu, index, buttoncolor);
                 e.preventDefault();
             });
             liveMenu[index].addEventListener('mouseup', (e) => {
+                // eslint-disable-next-line no-use-before-define
                 onTapColor(liveMenu, index, '');
+                // eslint-disable-next-line no-use-before-define
                 onTapliveMenu(index);
                 e.preventDefault();
             });
@@ -1171,8 +1205,7 @@ export function currentScreen() {
         uniqid.PlotAreaId = 'plotArea';
         uniqid.plotID = 'plot';
         uniqid.tdLog = '#timing-diagram-log';
-    }
-    else {
+    } else {
         uniqid.modulePropertyInner = '#moduleProperty-inner-2';
         uniqid.PlotAreaId = 'plotArea-touchpanel';
         uniqid.plotID = 'plot-touchpanel';
@@ -1212,14 +1245,13 @@ function openCurrMenu(index) {
      * Function For Menu Button Color
      */
 function onTapColor(classList, currentIndex, color) {
-    if(classList[currentIndex].style.backgroundColor === color) {
+    if (classList[currentIndex].style.backgroundColor === color) {
         classList[currentIndex].style.backgroundColor = '';
-    }
-    else {
+    } else {
         classList[currentIndex].style.backgroundColor = color;
     }
-    for(var i = 0; i < classList.length; i++) {
-        if(i != currentIndex) {
+    for (var i = 0; i < classList.length; i++) {
+        if (i != currentIndex) {
             classList[i].style.backgroundColor = '';
         }
     }
@@ -1265,6 +1297,7 @@ function onQuickmenuTap(i) {
 function onTapSmallNavbar(i) {
     switch (i) {
     case 0: logixFunction.newProject();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 1: logixFunction.save();
@@ -1272,39 +1305,51 @@ function onTapSmallNavbar(i) {
     case 2: logixFunction.saveOffline();
         break;
     case 3: logixFunction.createOpenLocalPrompt();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu(); // createSaveAsImgPrompt();
         break;
     case 4: logixFunction.clearProject();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 5: logixFunction.recoverProject();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 6: logixFunction.newCircuit();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 7: logixFunction.newVerilogModule();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 8: logixFunction.createSubCircuitPrompt();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 9: logixFunction.createCombinationalAnalysisPrompt();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 10: logixFunction.bitconverter();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 11: createSaveAsImgPrompt();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 12: logixFunction.colorThemes();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 13: logixFunction.generateVerilog();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 14: logixFunction.showTourGuide();
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     case 15: window.open('https://docs.circuitverse.org');
@@ -1313,7 +1358,14 @@ function onTapSmallNavbar(i) {
         break;
     case 17: window.open('https://circuitverse.org/forum');
         break;
+    case 18: logixFunction.newTagManager();
+        // eslint-disable-next-line no-use-before-define
+        closeNavmenu();
+        break;
+    case 19: logixFunction.LoadTagManager();
+        break;
     default:
+        // eslint-disable-next-line no-use-before-define
         closeNavmenu();
         break;
     }

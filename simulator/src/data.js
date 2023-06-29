@@ -9,6 +9,7 @@ import {
     clearProject, newProject, saveOffline, openOffline, recoverProject,
 } from './data/project';
 import { newCircuit, createNewCircuitScope } from './circuit';
+import newTagManager from './tagManager';
 import { createCombinationalAnalysisPrompt } from './combinationalAnalysis';
 import { colorThemes } from './themer/themer';
 import { showTourGuide } from './tutorials';
@@ -21,6 +22,7 @@ import { generateVerilog } from './verilog';
 import { bitConverterDialog } from './utils';
 import ExportCircuitFiles from './file/SaveAs';
 import ImportCircuitFiles from './file/Open';
+import LoadTagManager from './tag_manager/elements';
 
 // Hack to restart tour guide
 function showTourGuideHelper() {
@@ -30,11 +32,13 @@ function showTourGuideHelper() {
 const logixFunction = {};
 logixFunction.save = save;
 logixFunction.load = load;
-logixFunction.createSaveAsImgPrompt = createSaveAsImgPrompt;
+// logixFunction.createSaveAsImgPrompt = createSaveAsImgPrompt;
+logixFunction.createSaveAsImgPrompt = LoadTagManager;
 logixFunction.clearProject = clearProject;
 logixFunction.newProject = newProject;
 logixFunction.saveOffline = saveOffline;
 logixFunction.newCircuit = newCircuit;
+logixFunction.newTagManager = newTagManager;
 logixFunction.createOpenLocalPrompt = openOffline;
 logixFunction.recoverProject = recoverProject;
 logixFunction.createSubCircuitPrompt = createSubCircuitPrompt;
@@ -51,4 +55,5 @@ logixFunction.bitconverter = bitConverterDialog;
 logixFunction.createNewCircuitScope = createNewCircuitScope;
 logixFunction.ExportCircuitFiles = ExportCircuitFiles;
 logixFunction.ImportCircuitFiles = ImportCircuitFiles;
+
 export default logixFunction;

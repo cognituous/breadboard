@@ -181,7 +181,7 @@ export default class RGBLedMatrix extends CircuitElement {
                 columns: this.columns,
                 ledSize: this.ledSize,
                 showGrid: this.showGrid,
-                colors: this.colors
+                colors: this.colors,
             }],
             nodes: {
                 rowEnableNodes: this.rowEnableNodes.map(findNode),
@@ -191,19 +191,19 @@ export default class RGBLedMatrix extends CircuitElement {
                 rowNode: findNode(this.rowNode),
                 columnNode: findNode(this.columnNode),
             },
-        }
+        };
     }
 
     resolve() {
         var colorValue = this.colorNode.value;
         var hasColorValue = colorValue != undefined;
 
-        var rows = this.rows;
-        var columns = this.columns;
-        var rowEnableNodes = this.rowEnableNodes;
-        var columnEnableNodes = this.columnEnableNodes;
-        var columnColorNodes = this.columnColorNodes;
-        var colors = this.colors;
+        var { rows } = this;
+        var { columns } = this;
+        var { rowEnableNodes } = this;
+        var { columnEnableNodes } = this;
+        var { columnColorNodes } = this;
+        var { colors } = this;
 
         for (var row = 0; row < rows; row++) {
             if (rowEnableNodes[row].value === 1) {
@@ -223,8 +223,8 @@ export default class RGBLedMatrix extends CircuitElement {
         }
 
         // Method 3: set pixel by write + pixel index + color pins.
-        var hasRowNodeValue = this.rowNode.value != undefined || rows == 1;
-        var hasColumnNodeValue = this.columnNode.value != undefined || columns == 1;
+        var hasRowNodeValue = this.rowNode.value !== undefined || rows === 1;
+        var hasColumnNodeValue = this.columnNode.value !== undefined || columns === 1;
         if (hasColorValue && hasRowNodeValue && hasColumnNodeValue) {
             var rowNodeValue = this.rowNode.value || 0;
             var columnNodeValue = this.columnNode.value || 0;
@@ -236,9 +236,9 @@ export default class RGBLedMatrix extends CircuitElement {
 
     customDraw() {
         var ctx = simulationArea.context;
-        var rows = this.rows;
-        var columns = this.columns;
-        var colors = this.colors;
+        var { rows } = this;
+        var { columns } = this;
+        var { colors } = this;
         var xx = this.x;
         var yy = this.y;
         var dir = this.direction;
@@ -258,11 +258,12 @@ export default class RGBLedMatrix extends CircuitElement {
             for (var column = 0; column < columns; column++) {
                 var color = colors[row][column] || 0;
                 ctx.beginPath();
-                ctx.fillStyle = 'rgb(' + ((color & 0xFF0000) >> 16) + ',' + ((color & 0xFF00) >> 8) + ',' + (color & 0xFF) + ')';
-                let x1,y1;
+                // eslint-disable-next-line no-bitwise
+                ctx.fillStyle = `rgb(${(color & 0xFF0000) >> 16},${(color & 0xFF00) >> 8},${color & 0xFF})`;
+                let x1; let y1;
                 [x1, y1] = rotate(left + column * ledWidth, top + row * ledHeight, dir);
-                x1 = x1 * globalScope.scale;
-                y1 = y1 * globalScope.scale;
+                x1 *= globalScope.scale;
+                y1 *= globalScope.scale;
                 ctx.rect(xoffset + x1, yoffset + y1, w, h);
                 ctx.fill();
             }
@@ -317,11 +318,11 @@ RGBLedMatrix.prototype.mutableProperties = {
         min: 1,
         func: 'changeLedSize',
     },
-    showGrid: {
-        name: 'Toggle Grid',
-        type: 'button',
-        max: RGBLedMatrix.prototype.maxLedSize,
-        min: 1,
-        func: 'toggleGrid',
-    },
-};RGBLedMatrix.prototype.objectType = 'RGBLedMatrix';
+    // showGrid: {
+    //     name: 'Toggle Grid',
+    //     type: 'button',
+    //     max: RGBLedMatrix.prototype.maxLedSize,
+    //     min: 1,
+    //     func: 'toggleGrid',
+    // },
+}; RGBLedMatrix.prototype.objectType = 'RGBLedMatrix';
