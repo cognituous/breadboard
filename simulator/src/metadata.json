@@ -154,31 +154,7 @@
             {"name":"RAM", "label":"RAM"},
             {"name":"verilogRAM", "label":"Verilog RAM"},
             {"name":"EEPROM", "label":"EEPROM"}
-        ],
-        "Annotation": [
-            {"name":"Rectangle", "label":"Rectangle"},
-            {"name":"Arrow", "label":"Arrow"},
-            {"name":"ImageAnnotation", "label":"Image Annotation"},
-            {"name":"Text", "label":"Text"}
-        ],
-        "Misc": [
-            {"name":"TwoComplement", "label":"Two Complement"},
-            {"name":"Flag", "label":"Flag"},
-            {"name":"Splitter", "label":"Splitter"},
-            {"name":"Adder", "label":"Adder"},
-            {"name":"ALU", "label":"ALU(Arithmetic and Logical Unit)"},
-            {"name":"TriState", "label":"TriState Flip Flop"},
-            {"name":"Tunnel", "label":"Tunnel"},
-            {"name":"verilogMultiplier", "label":"Verilog Multiplier"},
-            {"name":"verilogDivider", "label":"Verilog Divider"},
-            {"name":"verilogPower", "label":"Verilog Power"},
-            {"name":"verilogShiftLeft", "label":"Verilog Shift Left"},
-            {"name":"verilogShiftRight", "label":"Verilog Shift Right"},
-            {"name":"Buffer", "label":"Buffer"},
-            {"name":"ControlledInverter", "label":"Controlled Inverter"},
-            {"name":"TB_Input", "label":"TB Input"},
-            {"name":"TB_Output", "label":"TB Output"},
-            {"name":"ForceGate", "label":"Force Gate"}
         ]
+
     }
 }

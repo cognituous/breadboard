@@ -25,14 +25,9 @@
              <li><a class="dropdown-item logixButton text-left pl-1" href="<%= user_project_url(@project.author, @project) %>" target="_blank">Project Page</a></li>
           <% end %>
           <li><a class="dropdown-item logixButton text-left pl-1" id="newProject">New Project</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="save">Save Online</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="saveOffline">Save Offline</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="createOpenLocalPrompt">Open Offline</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="ExportCircuitFiles">Export as file</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="ImportCircuitFiles">Import file</a></li>
+          <li><a class="dropdown-item logixButton text-left pl-1" id="ExportCircuitFiles">Deploy 🚢 </a></li>
            <li><a class="dropdown-item logixButton text-left pl-1" id="clearProject">Clear Project</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="recoverProject">Recover Project</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="fullViewOption">Preview Circuit</a></li>
+
         </ul>
       </li>
       <li class="dropdown nav-dropdown d-flex">
@@ -40,6 +35,7 @@
         <ul class="dropdown-menu">
           <li><a class="dropdown-item text-left logixButton pl-1" id="createNewCircuitScope">New Circuit + </a></li>
           <li><a class="dropdown-item text-left logixButton pl-1" id="newVerilogModule">New Verilog <br> Module</a></li>
+          <li><a class="dropdown-item text-left logixButton pl-1" id="newTagManager">Tag Manager + <br> Module</a></li>
           <li><a class="dropdown-item logixButton text-left pl-1" id="createSubCircuitPrompt">Insert SubCircuit</a></li>
         </ul>
       </li>
@@ -65,7 +61,7 @@
       </li>
       </ul>
       <span class="projectName noSelect defaultCursor font-weight-bold" id="projectName">
-          Untitled
+        Logicgate project1
       </span>
 
       <ul class="nav navbar-nav noSelect pointerCursor pull-right account-btn">
@@ -167,20 +163,6 @@
 </div>
 <div title="Export Verilog" id="verilog-export-code-window-div" style="display:none"><textarea id="verilog-export-code-window"></textarea></div>
 <div id="code-window" class='code-window'><textarea id="codeTextArea"></textarea></div>
-<div class="modules noSelect defaultCursor ce-panel elementPanel draggable-panel draggable-panel-css " id="guide_1">
-  <div class="panel-header">Circuit Elements
-  <span class="fas fa-minus-square minimize"></span>
-  <span class="fas fa-external-link-square-alt maximize"></span>
-  </div>
-  <div class="panel-body" id="testid">
-    <div style="position: relative;">
-    <input type="text" class="search-input" value="" placeholder="Search..">
-    <span><i class="fas search-close fa-times-circle"></i></span>
-    </div>
-    <div class="search-results"></div>
-    <div class="accordion" id="menu"></div>
-  </div>
-</div>
 
 <div id="smallNavbarMenu-btn">
 
@@ -204,6 +186,7 @@
     <div class="smallNavbar-navbar-ul">Circuits<i class="fas fa-chevron-down ulicon"></i></div>
     <div class="smallscreen-navbar-inner">
       <li class="SmallScreen-Navbar-li"> New Circuit + </li>
+      <li class="SmallScreen-Navbar-li"> Tag Manager + </li>
       <li class="SmallScreen-Navbar-li"> New Verilog Module</li>
       <li class="SmallScreen-Navbar-li"> Insert SubCircuit</li>
     </div>
@@ -252,24 +235,7 @@
     <ul><i class="fas fa-ellipsis-h touchMenuIcon"></i></ul>
   </div>
 
-  <!-- CircuitElementPanel  Responsive Versions -->
-  <div id="TouchCe-panel">
-    <div class="Touch-Ce-Menu" id="">
-      <div class="ce-name">Circuit Elements <i class="fas fa-times panelclose"></i></div>
-      <div style="position: relative;">
-        <input type="text" class="search-input" value="" placeholder="Search..">
-        <span><i class="fas search-close fa-times-circle"></i></span>
-      </div>
-      <div class="search-results" id="Mobile-menu"></div>
-      <div class="accordion" id="menu2"></div>
-    </div>
-  </div>
-
   <!-- Properties Panel  Responsive Versions -->
-
-  <div id="touchElement-property">
-    <div class="moduleProperty" id="touch-module-property"><div class="mp-name">Properties <i class="fas fa-times panelclose"></i></div><div id="moduleProperty-inner-2"></div></div>
-  </div>
 
   <!-- Timediagram For Responsive Versions -->
   <div id="touchtD-popover"> <div class="td-name">Timediagram <i class="fas fa-times panelclose"></i></div>
@@ -479,13 +445,26 @@
   </div>
 </div>
 
-<div class="moduleProperty noSelect effect1 properties-panel draggable-panel draggable-panel-css  guide_2" id="moduleProperty">
-  <div id="moduleProperty-title" class="noSelect panel-header">Properties
-  <span class="fas fa-minus-square minimize"></span>
-  <span class="fas fa-external-link-square-alt maximize"></span>
+ <div class="TagOverlayOffer"></div>
+
+ <div id="TagPanel" style="display: none;">
+  <div class="tagColumn" id="TagPanelMenu">
+    <div class="ce-name">Tag Operators
+      <i class="fas fa-times panelclose"></i>
+    </div>
+    <div style="position: relative;">
+      <input type="text" class="search-input" value="" placeholder="Search..">
+      <span><i class="fas search-close fa-times-circle"></i></span>
+    </div>
+    <div class="search-results" id="Mobile-menu"></div>
+    <div class="accordion" id="menu2"></div>
   </div>
-  <div class='panel-body'> <div id="moduleProperty-inner"></div></div>
+  <div class="tagColumn properties-panel" id="moduleProperty">
+    <div class='tagColumn' id="moduleProperty-inner"></div>
+    <div id="tagDescription" style="display: none; position: absolute; bottom: 0; right: 0;"></div>
+  </div>
 </div>
+
 <div id="customShortcutDialog" title="Keybinding Preference"></div>
 <div id="layoutDialog" class="draggable-panel draggable-panel-css ">
   <div class="panel-header">Layout
@@ -653,6 +632,9 @@
     <label class="option custom-radio inline"><input type="radio" name="resolution" value="2">2x<span></span></label>
     <label class="option custom-radio inline"><input type="radio" name="resolution" value="4">4x<span></span></label>
   </div>
+</div>
+
+<div id="tagManagementDialog" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Tag Manager">
 </div>
 
 <div id="colorThemesDialog" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Select Theme"></div>

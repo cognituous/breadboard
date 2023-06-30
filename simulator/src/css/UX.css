@@ -198,7 +198,7 @@ input[type="radio"]:checked ~ label {
 
 .ui-accordion-header {
     background-color: #333;
-    color: #fff;
+    color: #0dff92;
     border: 1px solid #0099ff;
     border-radius: 0;
     margin: 0em;
@@ -206,8 +206,13 @@ input[type="radio"]:checked ~ label {
     outline: none;
 }
 
+.ui-corner-all {
+    background-color: #333;
+    color: #0dff92;
+}
+
 .ui-accordion-header.ui-accordion-header-active.ui-state-active {
-    background-color: #0099ff;
+    background-color: #0F75D4;
     outline: none;
     margin-bottom: 0;
 }
@@ -252,6 +257,7 @@ input[type="radio"]:checked ~ label {
     font-size: 1.1em;
     text-transform: uppercase;
     margin-bottom: 0.5em;
+    flex: 2;
 }
 
 #moduleProperty-inner > p {
@@ -810,7 +816,8 @@ div.icon img {
 }
 
 .ui-dialog {
-    background: #222;
+    /*background: #222;*/
+    background: #f0f0f0;
 }
 
 .ui-dialog p {
@@ -839,6 +846,11 @@ div.icon img {
     margin: -10px 0 0 0;
     padding: 1px;
     height: 20px;
+}
+
+.ui-accordion-header-collapsed {
+    background-color: #333; /* dark grey background */
+    color: #fff; /* white text */
 }
 
 .ui-icon-close {

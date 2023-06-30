@@ -191,10 +191,12 @@ export function setupUI() {
         heightStyle: 'content',
     });
 
-    $('.logixModules').mousedown(createElement);
+    // $('.logixModules').mousedown(createElement);
+    // $('.logixModules').mousedown(grabElement);
 
     $('.logixButton').on('click',function () {
         logixFunction[this.id]();
+        console.log("logix_buttone pressed : " + this.id);
     });
     // var dummyCounter=0;
 
@@ -203,15 +205,32 @@ export function setupUI() {
         applyVerilogTheme();
     });
 
-
-    $('.logixModules').hover(function () {
-        // Tooltip can be statically defined in the prototype.
+    $('.logixModules').mousedown(function (event) {
+        event.preventDefault();
+        console.log(event);
         var { tooltipText } = modules[this.id].prototype;
-        if (!tooltipText) return;
-        $('#Help').addClass('show');
-        $('#Help').empty();
-        $('#Help').append(tooltipText);
-    }); // code goes in document ready fn only
+        if (!tooltipText) {
+            return;
+        }
+
+        simulationArea.lastSelected = new modules[this.id]();
+        simulationArea.addedAsTagOperator = new modules[this.id]();
+        globalScope.centerFocus(false);
+
+        console.log('logixModules mouse down event!');
+        $('#tagDescription').text(tooltipText);
+        $('#tagDescription').show();
+    });
+
+    // $('.logixModules').hover(function () {
+    //     // Tooltip can be statically defined in the prototype.
+    //     var { tooltipText } = modules[this.id].prototype;
+    //     if (!tooltipText) return;
+    //     $('#Help').addClass('show');
+    //     $('#Help').empty();
+    //     $('#Help').append(tooltipText);
+    // }); // code goes in document ready fn only
+
     $('.logixModules').mouseleave(() => {
         $('#Help').removeClass('show');
     }); // code goes in document ready fn only
@@ -257,7 +276,10 @@ export function setupUI() {
 }
 
 export function createElement() {
-    if (simulationArea.lastSelected && simulationArea.lastSelected.newElement) simulationArea.lastSelected.delete();
+    if (simulationArea.lastSelected && simulationArea.lastSelected.newElement) {
+        simulationArea.lastSelected.delete();
+    }
+
     var obj = new modules[this.id]();
     simulationArea.lastSelected = obj;
     uxvar.smartDropXX += 70;
@@ -265,6 +287,34 @@ export function createElement() {
         uxvar.smartDropXX = 50;
         uxvar.smartDropYY += 80;
     }
+}
+
+export function applyCreatedElement() {
+    console.log("apply created element pressed " + simulationArea.addedAsTagOperator);
+    console.log(simulationArea.lastSelected);
+    if (simulationArea.lastSelected && simulationArea.lastSelected.newElement) {
+        simulationArea.lastSelected.delete();
+    }
+
+    console.log("last selected now to be applied");
+    console.log(simulationArea.addedAsTagOperator);
+    uxvar.smartDropXX += 70;
+    if (uxvar.smartDropXX / globalScope.scale > width) {
+        uxvar.smartDropXX = 50;
+        uxvar.smartDropYY += 80;
+    }
+}
+
+export function grabElement() {
+    if (simulationArea.lastSelected && simulationArea.lastSelected.newElement) {
+        simulationArea.lastSelected.delete();
+    }
+
+    var obj = new modules[this.id]();
+    simulationArea.lastSelected = obj;
+
+    console.log("current grabbed element OBJ : " + obj);
+    console.log("current grabbed element ID : " + this.id);
 }
 
 /**
@@ -334,9 +384,9 @@ export function showProperties(obj) {
         $(moduleProperty.modulePropertyInner).append(`<p><span>Project:</span> <input id='projname' class='objectPropertyAttribute' type='text' autocomplete='off' name='setProjectName'  value='${getProjectName() || 'Untitled'}' aria-label='project'></p>`);
         $(moduleProperty.modulePropertyInner).append(`<p><span>Circuit:</span> <input id='circname' class='objectPropertyAttribute' type='text' autocomplete='off' name='changeCircuitName'  value='${globalScope.name || 'Untitled'}' aria-label='circuit'></p>`);
         $(moduleProperty.modulePropertyInner).append(`<p><span>Clock Time (ms):</span> <input class='objectPropertyAttribute' min='50' type='number' style='width:100px' step='10' name='changeClockTime'  value='${simulationArea.timePeriod}' aria-label='clock time'></p>`);
-        $(moduleProperty.modulePropertyInner).append(`<p><span>Clock Enabled:</span> <label class='switch'> <input type='checkbox' ${['', 'checked'][simulationArea.clockEnabled + 0]} class='objectPropertyAttributeChecked' name='changeClockEnable' aria-label='clock enabled'> <span class='slider'></span></label></p>`);
-        $(moduleProperty.modulePropertyInner).append(`<p><span>Lite Mode:</span> <label class='switch'> <input type='checkbox' ${['', 'checked'][lightMode + 0]} class='objectPropertyAttributeChecked' name='changeLightMode' aria-label='lite mode'> <span class='slider'></span> </label></p>`);
-        $(moduleProperty.modulePropertyInner).append("<p><button type='button' class='objectPropertyAttributeChecked btn btn-xs custom-btn--primary' name='toggleLayoutMode' >Edit Layout</button><button type='button' class='objectPropertyAttributeChecked btn btn-xs custom-btn--tertiary' name='deleteCurrentCircuit' >Delete Circuit</button> </p>");
+        // $(moduleProperty.modulePropertyInner).append(`<p><span>Clock Enabled:</span> <label class='switch'> <input type='checkbox' ${['', 'checked'][simulationArea.clockEnabled + 0]} class='objectPropertyAttributeChecked' name='changeClockEnable' aria-label='clock enabled'> <span class='slider'></span></label></p>`);
+        // $(moduleProperty.modulePropertyInner).append(`<p><span>Lite Mode:</span> <label class='switch'> <input type='checkbox' ${['', 'checked'][lightMode + 0]} class='objectPropertyAttributeChecked' name='changeLightMode' aria-label='lite mode'> <span class='slider'></span> </label></p>`);
+        // $(moduleProperty.modulePropertyInner).append("<p><button type='button' class='objectPropertyAttributeChecked btn btn-xs custom-btn--primary' name='toggleLayoutMode' >Edit Layout</button><button type='button' class='objectPropertyAttributeChecked btn btn-xs custom-btn--tertiary' name='deleteCurrentCircuit' >Delete Circuit</button> </p>");
         // $('#moduleProperty-inner').append("<p>  ");
     } else {
         $('#moduleProperty').show();
@@ -391,10 +441,10 @@ export function showProperties(obj) {
 
     var helplink = obj && (obj.helplink);
     if (helplink) {
-        $(moduleProperty.modulePropertyInner).append('<p class="btn-parent"><button id="HelpButton" class="btn btn-primary btn-xs" type="button" >&#9432 Help</button></p>');
-        $('#HelpButton').on('click',() => {
-            window.open(helplink);
-        });
+        // $(moduleProperty.modulePropertyInner).append('<p class="btn-parent"><button id="HelpButton" class="btn btn-primary btn-xs" type="button" >&#9432 Help</button></p>');
+        // $('#HelpButton').on('click',() => {
+        //     window.open(helplink);
+        // });
     }
 
     function checkValidBitWidth() {

@@ -131,7 +131,7 @@ export default class RAM extends CircuitElement {
 
     customDraw() {
         var ctx = simulationArea.context;
-        //        
+        //
         var xx = this.x;
         var yy = this.y;
 
@@ -236,9 +236,9 @@ export default class RAM extends CircuitElement {
         input dmp;
         input rst;
         reg [WIDTH-1:0] mem [2**ADDR-1:0];
-    
+
         assign dout = mem[addr];
-    
+
         always @ (*) begin
         if (!we)
             mem[addr] = din;
@@ -259,20 +259,20 @@ RAM.prototype.mutableProperties = {
         min: '1',
         func: 'changeAddressWidth',
     },
-    dump: {
-        name: 'Core Dump',
-        type: 'button',
-        func: 'dump',
-    },
-    load: {
-        name: 'Load Data',
-        type: 'button',
-        func: 'promptData',
-    },
-    reset: {
-        name: 'Reset',
-        type: 'button',
-        func: 'clearData',
-    },
+    // dump: {
+    //     name: 'Core Dump',
+    //     type: 'button',
+    //     func: 'dump',
+    // },
+    // load: {
+    //     name: 'Load Data',
+    //     type: 'button',
+    //     func: 'promptData',
+    // },
+    // reset: {
+    //     name: 'Reset',
+    //     type: 'button',
+    //     func: 'clearData',
+    // },
 };
 RAM.prototype.objectType = 'RAM';

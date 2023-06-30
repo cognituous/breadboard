@@ -53,14 +53,14 @@ BooleanMinimize.prototype.solve = function () {
         }
 
         return str;
-    };
+    }
 
     function num_set_bits(s) {
         var ans = 0;
         for (let i = 0; i < s.length; ++i)
             if (s[i] === '1') ans++;
         return ans;
-    };
+    }
 
     function get_prime_implicants(allTerms) {
         var table = [];
@@ -109,7 +109,7 @@ BooleanMinimize.prototype.solve = function () {
         }
 
         return primeImplicants;
-    };
+    }
 
     function get_essential_prime_implicants(primeImplicants, minTerms) {
         var table = [],
@@ -205,7 +205,7 @@ BooleanMinimize.prototype.solve = function () {
         }
 
         return essentialImplicants;
-    };
+    }
 
     var minTerms = this.minTerms.map(dec_to_binary_string.bind(this));
     var dontCares = this.dontCares.map(dec_to_binary_string.bind(this));

@@ -141,7 +141,7 @@ export const colorThemes = () => {
                 $('.set').removeClass('set');
                 $('.selected').addClass('set');
                 $(this).dialog('close');
-            }
+            },
         },
         {
             text: "Custom Theme",

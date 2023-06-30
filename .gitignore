@@ -19,6 +19,9 @@ public/assets/
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+# Ignore binary
+/bin/*
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -28,6 +31,7 @@ tmp
 
 /node_modules
 /yarn-error.log
+yarn.lock
 
 .byebug_history
 

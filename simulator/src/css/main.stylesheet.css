@@ -485,6 +485,7 @@ input[type="text"]:focus {
 
 .ui-accordion-header-icon.ui-icon {
     display: none;
+    color: #0a001f;
 }
 
 .accordion {
@@ -676,11 +677,49 @@ div.icon img {
 /*! tab bar styling ends */
 /** Module property styling starts here */
 
+.TagOverlayOffer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10; /* The z-index needs to be higher than the content under the overlay */
+    display: none; /* By default the overlay is not displayed */
+}
+
+.TagPanel {
+    display: table;
+    clear: both;
+    color: #f0f0f0;
+    background-color: #4db8ff;
+}
+
+.tagColumn {
+    float: left;
+    width: 30%;
+    margin-right: 150px;
+    border: 3px solid black;
+}
+
+#tagDescription {
+    position: absolute;
+    bottom: 100px;
+    right: 100px;
+}
+
+.TagPanelMenu {
+    flex: 1;
+    overflow: auto;
+}
+
 .moduleProperty {
     font: inherit;
     width: 250px;
     top: 90px;
     right: 10px;
+    flex: 2;
+    overflow: auto;
 }
 
 .layoutElementPanel {
@@ -926,8 +965,24 @@ div.icon img {
 }
 
 #moduleProperty-inner {
-    width: 85%;
+    float: left;
+    width: 40%;
     margin: auto;
+    flex: 1;
+    /*border: 1px solid #0099ff;*/
+    /*padding: 1em;*/
+    overflow: auto;
+    /*color: #000;*/
+}
+#moduleProperty-inner > p {
+    margin: 0;
+    margin-top: 0.2em;
+}
+#dialogContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: #f0f0f0;
 }
 
 .moduleProperty-header {
@@ -1176,6 +1231,7 @@ input:checked + .slider:before {
     height: 320px;
     padding: 10px 17px;
     padding-bottom: 0;
+    background-color: #a5dfc5;
     /* border: none !important; */
 }
 
@@ -1500,7 +1556,7 @@ input:checked + .slider:before {
 #insertSubcircuitcontent a {
   color: white;
   margin-bottom: 7px;
-} 
+}
 
 #insertSubcircuitDialog > p {
     margin-bottom: 0;
@@ -1726,6 +1782,30 @@ input[type="range"]::-webkit-slider-thumb {
 #simulationArea,
 canvas {
     /* cursor: wait !important; */
+}
+
+.ui-dialog[aria-describedby="tagManagementDialog"] {
+    min-width: 960px;
+    user-select: none;
+    color: #000;
+}
+
+.tagManagementDialog {
+    min-height: 700px;
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    overflow-y: auto;
+    margin-top: 10px;
+    border: 1px solid white !important;
+    color: #000;
+}
+
+.tagManagementDialog input {
+    margin: 15px;
+}
+
+.tagManagementDialog label {
+    margin-bottom: 0;
 }
 
 /** Color them dialog styles starts here*/
@@ -1959,7 +2039,9 @@ canvas {
 }
 
 #TouchCe-panel {
-    display: none;
+    flex: 1;
+    overflow: auto;
+    /*display: none;*/
 }
 #touch-module-property {
     display: none;
@@ -2249,8 +2331,13 @@ canvas {
         margin: 5px;
         font-size: 8px;
     }
+    #detailsTagPanel {
+        flex: 2;
+        overflow: auto;
+    }
     #TouchCe-panel {
         color: var(--text-panel);
+        flex: 1;
         width: 235px;
         top: 80px;
         right: 80px;
@@ -2266,6 +2353,7 @@ canvas {
         height: 300px;
         background-color: var(--primary);
     }
+
     #TouchCe-panel::before {
         position: absolute;
         top: 5px;
@@ -2342,7 +2430,8 @@ canvas {
         top: 50%;
         transform: translateY(-50%) rotate(120deg);
         transition: background 0.5s ease-out;
-        background-color: white;
+        /*background-color: white;*/
+        background-color: #5c5855;
     }
 
     .mobilepanelHeader:after {

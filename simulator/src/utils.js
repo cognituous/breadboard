@@ -192,7 +192,7 @@ export function copyToClipboard(text) {
         textarea.remove();
         return false;
       }
-};
+}
 
 export function truncateString(str, num) {
     // If the length of str is less than or equal to num
