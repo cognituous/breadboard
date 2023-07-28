@@ -134,6 +134,7 @@ function deleteCurrentCircuit(scopeId = globalScope.id) {
  */
 export function createNewCircuitScope() {
     simulationArea.lastSelected = undefined;
+
     const scope = newCircuit();
     if (!embed) {
         showProperties(simulationArea.lastSelected);
@@ -195,6 +196,7 @@ export function newCircuit(name, id, isVerilog = false, isVerilogMain = false) {
             e.stopPropagation();
             deleteCurrentCircuit(this.id);
         });
+
         if (!embed) {
             showProperties(scope.root);
         }

@@ -155,6 +155,13 @@ function menuItemClicked(id, code="") {
 }
 window.menuItemClicked = menuItemClicked;
 
+function explorerMenuClicked(code="") {
+    console.log("toggled fn explorerMenuClicked");
+    hideContextMenu();
+    createNewCircuitScope();
+}
+window.explorerMenuClicked = explorerMenuClicked;
+
 /**
  * adds some UI elements to side bar and
  * menu also attaches listeners to sidebar
@@ -174,7 +181,9 @@ export function setupUI() {
         ctxPos.x = e.clientX;
         ctxPos.y = e.clientY;
     });
+
     document.getElementById('canvasArea').oncontextmenu = showContextMenu;
+    // document.getElementById('project-explore-sidebar').oncontextmenu = showContextMenu;
 
     $('#sideBar').resizable({
         handles: 'e',

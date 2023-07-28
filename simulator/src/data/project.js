@@ -9,6 +9,9 @@ import { checkIfBackup } from './backupCircuit';
 import { generateSaveData, getProjectName, setProjectName } from './save';
 import load from './load';
 import ImportCircuitFiles from '../file/Open';
+import updateThemeForStyle from '../themer/themer';
+import { applyCreatedElement } from '../ux';
+import ApplyProjectLayout from '../project_manager/hierarchy';
 /**
  * Helper function to recover unsaved data
  * @category data
@@ -132,13 +135,84 @@ export function clearProject() {
  * @category data
  */
 export function newProject(verify) {
-    if (verify || projectSaved || !checkToSave() || confirm('What you like to start a new project? Any unsaved changes will be lost.')) {
+    if (verify || projectSaved || !checkToSave()) {
+        // || confirm('What you like to start a new project? Any unsaved changes will be lost.')) {
+        // console.log("about to clear the project");
+
         clearProject();
         localStorage.removeItem('recover');
-        window.location = '/simulator';
+        // window.location = '/simulator';
 
-        setProjectName(undefined);
-        projectId = generateId();
-        showMessage('New Project has been created!');
+        $('#projectManagerDialogForm').show();
+        // $('.TagOverlayOffer').show();
+        $('#projectManagerDialogForm').dialog({
+            // resizable: true,
+            resizable: false,
+            draggable: false,
+            create(event, ui) {
+                $(this).css("background-color", "#a5dfc5"); // orange
+            },
+            close() {
+                $('#TouchCe-panel').hide();
+                // $('.TagOverlayOffer').hide();
+            },
+            buttons: [
+                {
+                    text: "Apply",
+                    click() {
+                        var projectName = $("#projectNameValue").val();
+                        var targetSelection = $("#targetNameValue").val();
+                        console.log("### project name : " + projectName + " | target value : " + targetSelection);
+
+                        var projectData = [
+                            {
+                                "name": projectName,
+                                "type": "directory",
+                                "children": [
+                                    {
+                                        "name": targetSelection + " [Master]",
+                                        "type": "directory",
+                                        "children": [
+                                            {
+                                                "name": "Logic sheet1",
+                                                "type": "file"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ];
+
+                        console.log(projectData);
+
+                        // eslint-disable-next-line no-undef
+                        $.ajax({
+                            url: '/simulator/generate_project_metadata',
+                            method: 'POST',
+                            data: JSON.stringify(projectData),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(response) {
+                                console.log(response);
+                                setProjectName(undefined);
+                                projectId = generateId();
+                                showMessage('New Project has been created!');
+
+                                ApplyProjectLayout('/data/project_1.json');
+                            },
+                            error: function(error) {
+                                showMessage(error);
+                            }
+                        });
+                        $(this).dialog('close');
+                    },
+                },
+                {
+                    text: "Cancel",
+                    click() {
+                        // eslint-disable-next-line no-undef
+                        $(this).dialog('close');
+                    },
+                }],
+        });
     }
 }

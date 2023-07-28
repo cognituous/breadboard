@@ -29,6 +29,7 @@ import { setupCodeMirrorEnvironment } from './Verilog2CV';
 import { keyBinder } from './hotkey_binder/keyBinder';
 import '../vendor/jquery-ui.min.css';
 import '../vendor/jquery-ui.min';
+import ApplyProjectLayout from './project_manager/hierarchy';
 
 window.width = undefined;
 window.height = undefined;
@@ -151,18 +152,24 @@ function setupElementLists() {
  * @category setup
  */
 export function setup() {
+    // eslint-disable-next-line no-undef
     const startListeners = embed ? startEmbedListeners : startMainListeners;
     setupElementLists();
     setupEnvironment();
+    ApplyProjectLayout("");
+    // eslint-disable-next-line no-undef
     if (!embed) { setupUI(); }
     startListeners();
+    // eslint-disable-next-line no-undef
     if (!embed) { keyBinder(); }
 
     // Load project data after 1 second - needs to be improved, delay needs to be eliminated
     setTimeout(() => {
-        if (__logix_project_id != 0) {
+        // eslint-disable-next-line no-undef
+        if (__logix_project_id !== 0) {
             $('.loadingIcon').fadeIn();
             $.ajax({
+                // eslint-disable-next-line no-undef
                 url: `/simulator/get_data/${__logix_project_id}`,
                 type: 'GET',
                 success(response) {
@@ -171,13 +178,16 @@ export function setup() {
                         load(data);
                         simulationArea.changeClockTime(data.timePeriod || 500);
                     }
+                    // eslint-disable-next-line no-undef
                     $('.loadingIcon').fadeOut();
                 },
                 failure() {
                     alert('Error: could not load ');
+                    // eslint-disable-next-line no-undef
                     $('.loadingIcon').fadeOut();
                 },
             });
+            // eslint-disable-next-line no-undef
         } else if (localStorage.getItem('recover_login') && userSignedIn) {
             // Restore unsaved data and save
             var data = JSON.parse(localStorage.getItem('recover_login'));
@@ -191,6 +201,7 @@ export function setup() {
         }
     }, 1000);
 
+    // eslint-disable-next-line no-undef
     if (!localStorage.tutorials_tour_done && !embed) {
         setTimeout(() => { showTourGuide(); }, 2000);
     }

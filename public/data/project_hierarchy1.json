@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Test Project",
+    "type": "directory",
+    "children": [
+      {
+        "name": "SCB-RTE70 [Master]",
+        "type": "directory",
+        "children": [
+          {
+            "name": "Logic sheet1",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Test Project2",
+    "type": "directory",
+    "children": [
+      {
+
+      }
+    ]
+  }
+]

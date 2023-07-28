@@ -21,19 +21,28 @@ function LoadTagManager() {
             $('#TouchCe-panel').hide();
             // $('.TagOverlayOffer').hide();
         },
-        buttons: [{
-            text: "Add operator",
-            click() {
-                // $('.logixModules').mousedown(createElement);
-                // $('.TagOverlayOffer').hide();
-                applyCreatedElement();
-                // eslint-disable-next-line no-import-assign
-                $(this).dialog('close');
+        buttons: [
+            {
+                text: "Refresh tag lists..",
+                click() {
+                    // eslint-disable-next-line no-undef
+                    $(this).dialog('close');
+                }
             },
-        },
+            {
+                text: "Add operator",
+                click() {
+                    // $('.logixModules').mousedown(createElement);
+                    // $('.TagOverlayOffer').hide();
+                    applyCreatedElement();
+                    // eslint-disable-next-line no-import-assign,no-undef
+                    $(this).dialog('close');
+                },
+            },
             {
                 text: "Continue",
                 click() {
+                    // eslint-disable-next-line no-undef
                     $(this).dialog('close');
                     // $('.TagOverlayOffer').hide();
                 },

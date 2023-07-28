@@ -14,6 +14,7 @@ class SimulatorController < ApplicationController
   after_action :allow_iframe_lti, only: %i[show], constraints: lambda {
     Flipper.enabled?(:lms_integration, current_user)
   }
+  skip_before_action :verify_authenticity_token, only: [:generate_project_metadata]
 
   def self.policy_class
     ProjectPolicy
@@ -110,6 +111,30 @@ class SimulatorController < ApplicationController
     # render plain: simulator_path(@project)
     # render plain: user_project_url(current_user,@project)
     redirect_to edit_user_project_url(current_user, @project)
+  end
+
+  def generate_project_metadata
+    project_data = JSON.parse(request.body.read)
+
+    # Here you might do some validation on project_data...
+    unless project_data.is_a?(Array) && project_data.first.is_a?(Hash)
+      render json: { error: 'Invalid project data.' }, status: :unprocessable_entity
+      return
+    end
+
+    required_keys = ["name", "type", "children"]
+    if required_keys.any? { |k| !project_data.first.key?(k) }
+      render json: { error: 'Missing required fields in project data.' }, status: :unprocessable_entity
+      return
+    end
+
+    begin
+      File.write('public/data/project_1.json', JSON.pretty_generate(project_data.as_json))
+      render json: { message: 'File written successfully!' }, status: :ok
+    rescue => e
+      puts e.message
+      render json: { error: 'An error occurred writing to the file.' }, status: :internal_server_error
+    end
   end
 
   def verilog_cv

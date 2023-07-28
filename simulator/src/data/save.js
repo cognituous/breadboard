@@ -21,10 +21,12 @@ var projectName = undefined;
  * @category data
  */
 export function setProjectName(name) {
+    console.log("project name: " + name);
     if(name == undefined) {
         $('#projectName').html('Untitled');
         return;
     }
+
     name = stripTags(name);
     projectName = name;
     $('#projectName').html(name);

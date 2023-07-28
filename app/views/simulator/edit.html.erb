@@ -10,6 +10,7 @@
   __projectName = "<%= @projectName %>"
 </script>
 
+
 <div id='exitView'></div>
 <nav class="navbar navbar-expand-lg navbar-dark header">
   <a href="/"><span class='logo'></span></a>
@@ -30,15 +31,15 @@
 
         </ul>
       </li>
-      <li class="dropdown nav-dropdown d-flex">
-        <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= t("simulator.nav_item.circuit") %><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item text-left logixButton pl-1" id="createNewCircuitScope">New Circuit + </a></li>
-          <li><a class="dropdown-item text-left logixButton pl-1" id="newVerilogModule">New Verilog <br> Module</a></li>
-          <li><a class="dropdown-item text-left logixButton pl-1" id="newTagManager">Tag Manager + <br> Module</a></li>
-          <li><a class="dropdown-item logixButton text-left pl-1" id="createSubCircuitPrompt">Insert SubCircuit</a></li>
-        </ul>
-      </li>
+<!--      <li class="dropdown nav-dropdown d-flex">-->
+<!--        <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%#= t("simulator.nav_item.circuit") %><span class="caret"></span></a>-->
+<!--        <ul class="dropdown-menu">-->
+<!--          <li><a class="dropdown-item text-left logixButton pl-1" id="createNewCircuitScope">New Circuit + </a></li>-->
+<!--          <li><a class="dropdown-item text-left logixButton pl-1" id="newVerilogModule">New Verilog <br> Module</a></li>-->
+<!--          <li><a class="dropdown-item text-left logixButton pl-1" id="newTagManager">Tag Manager + <br> Module</a></li>-->
+<!--          <li><a class="dropdown-item logixButton text-left pl-1" id="createSubCircuitPrompt">Insert SubCircuit</a></li>-->
+<!--        </ul>-->
+<!--      </li>-->
       <li class="dropdown nav-dropdown d-flex">
         <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= t("simulator.nav_item.tools") %><span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -50,15 +51,15 @@
           <li><a class="dropdown-item text-left pl-1 logixButton" id="generateVerilog">Export Verilog</a>
         </ul>
       </li>
-      <li class="dropdown tour-help nav-dropdown d-flex">
-        <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= t("simulator.nav_item.help") %><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item text-left pl-1 logixButton" id="showTourGuide">Tutorial Guide</a></li>
-            <li><a class="dropdown-item text-left pl-1" href="https://docs.circuitverse.org" class="" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">User Manual</a></li>
-            <li><a class="dropdown-item text-left pl-1" href="https://learn.circuitverse.org" class="" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">Learn Digital Logic</a></li>
-            <li><a class="dropdown-item text-left pl-1" href="https://circuitverse.org/forum" class="forum-tab" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">Discussion Forum</a></li>
-        </ul>
-      </li>
+<!--      <li class="dropdown tour-help nav-dropdown d-flex">-->
+<!--        <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%#= t("simulator.nav_item.help") %><span class="caret"></span></a>-->
+<!--        <ul class="dropdown-menu">-->
+<!--            <li><a class="dropdown-item text-left pl-1 logixButton" id="showTourGuide">Tutorial Guide</a></li>-->
+<!--            <li><a class="dropdown-item text-left pl-1" href="https://docs.circuitverse.org" class="" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">User Manual</a></li>-->
+<!--            <li><a class="dropdown-item text-left pl-1" href="https://learn.circuitverse.org" class="" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">Learn Digital Logic</a></li>-->
+<!--            <li><a class="dropdown-item text-left pl-1" href="https://circuitverse.org/forum" class="forum-tab" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">Discussion Forum</a></li>-->
+<!--        </ul>-->
+<!--      </li>-->
       </ul>
       <span class="projectName noSelect defaultCursor font-weight-bold" id="projectName">
         Logicgate project1
@@ -159,14 +160,39 @@
   <!-- /.navbar-collapse -->
 </nav>
 <div id="tabsBar" class="noSelect pointerCursor">
-  <button name="logixButton" class="logixButton" id="createNewCircuitScope" onclick="" aria-label='logix button'><i class="fas fa-plus"></i></button>
+  <button name="logixButton" class="logixButton" id="createNewCircuitScope" onclick="" aria-label='logix button'>
+    <i class="fas fa-plus"></i>
+  </button>
 </div>
 <div title="Export Verilog" id="verilog-export-code-window-div" style="display:none"><textarea id="verilog-export-code-window"></textarea></div>
 <div id="code-window" class='code-window'><textarea id="codeTextArea"></textarea></div>
 
-<div id="smallNavbarMenu-btn">
-
+<!--new project side bar menu-->
+<div id="project-explore-sidebar">
+  <div id="content">
+    <ul>
+      <li>Directory 1
+        <ul>
+          <li>File 1.1</li>
+          <li>File 1.2</li>
+        </ul>
+      </li>
+      <li>Directory 2
+        <ul>
+          <li>File 2.1</li>
+          <li>File 2.2</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div id="contextMenu1" oncontextmenu="return false;">
+    <ul>
+      <li onclick="menuItemClicked(5)">New Circuit Sheet</li>
+    </ul>
+  </div>
 </div>
+
+<!--<div id="projectManagerDialogForm" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Create new project"></div>-->
 
 <!-- navBar-for-small-screen -->
 <div class="smallscreen-navbar">
@@ -337,11 +363,7 @@
     </div>
   </div>
 </div>
-<div class="testbench-manual-panel draggable-panel noSelect defaultCursor">
-  <div class="panel-header">Testbench
-    <span class="fas fa-minus-square minimize panel-button"></span>
-    <span class="fas fa-external-link-square-alt maximize panel-button-icon"></span>
-  </div>
+<div class="testbench-manual-panel draggable-panel noSelect defaultCursor" aria-hidden="true">
   <div class="panel-body tb-test-not-null tb-panel-hidden">
       <div class="tb-manual-test-data">
         <div style="margin-bottom: 10px; overflow: auto;">
@@ -389,14 +411,6 @@
         <span class="testbench-runall-label">
           <span id="runall-summary">placeholder</span> Tests Passed <span id="runall-detailed-link" style="color: #18A2CD;">View Detailed</span>
         </span>
-      </div>
-  </div>
-  <div class="panel-body tb-test-null">
-    <div class="tb-manual-test-data">
-        <div style="margin-bottom: 10px; overflow: auto;">
-          <p><i>No Test is attached to the current circuit</i></p>
-        </div>
-        <button class="custom-btn--primary panel-button tb-dialog-button" id="attach-test-btn">Attach Test</button>
       </div>
   </div>
 </div>
@@ -462,6 +476,20 @@
   <div class="tagColumn properties-panel" id="moduleProperty">
     <div class='tagColumn' id="moduleProperty-inner"></div>
     <div id="tagDescription" style="display: none; position: absolute; bottom: 0; right: 0;"></div>
+  </div>
+</div>
+
+
+<!-- The Modal -->
+<div id="projectManagerDialogForm" class="projectManagerModal" style="display: none;">
+  <div class="projectManagerModal-content">
+    <span class="close">&times;</span>
+    <label for="projectName">Project Name</label>
+    <input type="text" id="projectNameValue" name="projectName" required><br>
+    <label for="target">Target</label>
+    <input type="text" id="targetNameValue" name="target" required><br>
+    <button id="projectManagerApplyBtn">Apply</button>
+    <button id="projectManagerCancelBtn">Cancel</button>
   </div>
 </div>
 
@@ -634,9 +662,7 @@
   </div>
 </div>
 
-<div id="tagManagementDialog" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Tag Manager">
-</div>
-
+<div id="tagManagementDialog" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Tag Manager"></div>
 <div id="colorThemesDialog" class='customScroll colorThemesDialog' tabindex="0" style="display: none;" title="Select Theme"></div>
 <div id="CustomColorThemesDialog" class='customScroll' tabindex="0" style="display: none;" title="Custom Theme"></div>
 <input type='file' id="importThemeFile" name='themeFile' style="display:none" multiple>
@@ -685,8 +711,8 @@
         <li onclick="menuItemClicked(1)">Cut</li>
         <li onclick="menuItemClicked(3)">Delete</li>
         <li onclick="menuItemClicked(4)">Undo</li>
-        <li onclick="menuItemClicked(5)">New Circuit</li>
-        <li onclick="menuItemClicked(6)">Insert SubCircuit</li>
+<!--        <li onclick="menuItemClicked(5)">New Circuit</li>-->
+<!--        <li onclick="menuItemClicked(6)">Insert SubCircuit</li>-->
         <li onclick="menuItemClicked(7)">Center Focus</li>
       </ul>
     </div>
@@ -804,6 +830,28 @@
   $('#newCircuit').click(function () {
     return $('#insertSubcircuitDialog').dialog('close');
   });
+</script>
+
+<script>
+  // function foldingAnimation() {
+  //   $('#project-explore-sidebar li').click(function(e) {
+  //     e.stopPropagation(); /* Prevents the click event from affecting parent directories */
+  //     $(this).children('ul').Toggle(); /* Toggles visibility of the directory's contents */
+  //   });
+  //
+  //   $("#project-explore-sidebar li").contextmenu(function(event) {
+  //     event.preventDefault();
+  //     var contextMenu = $("#contextMenu1"); // Replace with your actual context menu
+  //
+  //     contextMenu.css({
+  //       top: event.pageY + "px",
+  //       left: event.pageX + "px"
+  //     });
+  //
+  //     contextMenu.show();
+  //   });
+  // }
+
 </script>
 
 <script>

@@ -116,14 +116,18 @@ const plotArea = {
     resize() {
         var oldHeight = this.height;
         var oldWidth = this.width;
-        this.width = document.getElementById(ptA.plotID).clientWidth * this.DPR;
-        this.height = getFullHeight(globalScope.Flag.length);
-        if (oldHeight == this.height && oldWidth == this.width) return;
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
-        document.getElementById(ptA.PlotAreaId).style.height = this.canvas.height / this.DPR;
-        document.getElementById(ptA.PlotAreaId).style.width = this.canvas.width / this.DPR;
-        this.plot();
+
+        var plotObject = document.getElementById(ptA.plotID);
+        if (plotObject !== null && plotObject !== undefined) {
+            this.width = document.getElementById(ptA.plotID).clientWidth * this.DPR;
+            this.height = getFullHeight(globalScope.Flag.length);
+            if (oldHeight == this.height && oldWidth == this.width) return;
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
+            document.getElementById(ptA.PlotAreaId).style.height = this.canvas.height / this.DPR;
+            document.getElementById(ptA.PlotAreaId).style.width = this.canvas.width / this.DPR;
+            this.plot();
+        }
     },
     // Setup function, called on page load
     setup() {
@@ -388,9 +392,11 @@ const plotArea = {
     plot() {
         if (embed) return;
         if (globalScope.Flag.length === 0) {
-            this.canvas.width = 0;
-            this.canvas.height = 0;
-            return;
+            if (this.canvas !== null && this.canvas !== undefined) {
+                this.canvas.width = 0;
+                this.canvas.height = 0;
+                return;
+            }
         }
 
         this.update();
